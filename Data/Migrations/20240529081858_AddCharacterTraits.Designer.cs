@@ -4,6 +4,7 @@ using DnDCharacterStorageApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacterStorageApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529081858_AddCharacterTraits")]
+    partial class AddCharacterTraits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,16 +36,16 @@ namespace DnDCharacterStorageApp.Data.Migrations
                     b.Property<int>("ArmorClass")
                         .HasColumnType("int");
 
-                    b.Property<string>("Background")
+                    b.Property<string>("CharacterClass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CharacterName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Charisma")
                         .HasColumnType("int");
-
-                    b.Property<string>("Class")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Constitution")
                         .HasColumnType("int");
@@ -56,22 +59,11 @@ namespace DnDCharacterStorageApp.Data.Migrations
                     b.Property<int>("HitPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("Initiative")
-                        .HasColumnType("int");
-
                     b.Property<int>("Intelligence")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Race")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Speed")
                         .HasColumnType("int");

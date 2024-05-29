@@ -8,22 +8,28 @@ using Microsoft.EntityFrameworkCore;
 using DnDCharacterStorageApp.Data;
 using DnDCharacterStorageApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace DnDCharacterStorageApp.Controllers
 {
     public class CharactersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<CharactersController> _logger;
 
-        public CharactersController(ApplicationDbContext context)
+        public CharactersController(ApplicationDbContext context, UserManager<IdentityUser> userManager, ILogger<CharactersController> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _logger = logger;
         }
 
-        // GET: Characters
+        // GET: Characters (Index)
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Character.ToListAsync());
+            ViewData["UserId"] = _userManager.GetUserId(User);
+            return View(await _context.Character.Include(c => c.CreatedBy).ToListAsync());
         }
 
         // GET: Characters/ShowSearchForm
@@ -35,7 +41,7 @@ namespace DnDCharacterStorageApp.Controllers
         // GET: Characters/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
-            return View("Index", await _context.Character.Where( j => j.CharacterName.Contains(SearchPhrase)).ToListAsync());
+            return View("Index", await _context.Character.Where( j => j.Name.Contains(SearchPhrase)).ToListAsync());
         }
 
         // GET: Characters/Details/5
@@ -46,13 +52,13 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
             }
 
+            ViewData["UserId"] = _userManager.GetUserId(User);
             return View(character);
         }
 
@@ -69,14 +75,39 @@ namespace DnDCharacterStorageApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CharacterName,CharacterClass")] Character character)
+        public async Task<IActionResult> Create(Character character)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    // Handle not logged in case
+                    return Unauthorized();
+                }
+                character.CreatedById = user.Id;
+
                 _context.Add(character);
                 await _context.SaveChangesAsync();
+
+                // Log a success message
+                _logger.LogInformation("Character created successfully with ID: {CharacterId}", character.Id);
+
                 return RedirectToAction(nameof(Index));
             }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value.Errors })
+                .ToArray();
+
+            foreach (var error in errors)
+            {
+                foreach (var subError in error.Errors)
+                {
+                    _logger.LogError("Error in property {Property}: {ErrorMessage}", error.Key, subError.ErrorMessage);
+                }
+            }
+
             return View(character);
         }
 
@@ -89,11 +120,18 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.FindAsync(id);
+            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
             }
+
+            var userId = _userManager.GetUserId(User);
+            if (character.CreatedById != userId)
+            {
+                return Unauthorized();
+            }
+
             return View(character);
         }
 
@@ -103,7 +141,7 @@ namespace DnDCharacterStorageApp.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CharacterName,CharacterClass")] Character character)
+        public async Task<IActionResult> Edit(int id, Character character)
         {
             if (id != character.Id)
             {
@@ -142,11 +180,16 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
+            }
+
+            var userId = _userManager.GetUserId(User);
+            if (character.CreatedById != userId)
+            {
+                return Unauthorized();
             }
 
             return View(character);
@@ -158,7 +201,7 @@ namespace DnDCharacterStorageApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var character = await _context.Character.FindAsync(id);
+            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
             if (character != null)
             {
                 _context.Character.Remove(character);

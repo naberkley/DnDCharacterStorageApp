@@ -11,18 +11,14 @@
     <h4>Character</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CharacterName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CharacterName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CharacterClass)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CharacterClass)
-        </dd>
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.Class)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.Class)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CreatedBy.UserName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.CreatedBy.UserName)</dd>
     </dl>
     
     <form asp-action="Delete">

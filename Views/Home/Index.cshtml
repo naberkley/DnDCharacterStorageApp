@@ -5,6 +5,12 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Welcome to the D&D Character Manager!</p>
-    <p>Store your D&D 5e characters here</p>
-    <p>Use the navigation bar to get started.</p>
+    <p>
+        You must be
+        <a asp-area="Identity" asp-page="/Account/Register">registered</a>
+        and
+        <a asp-area="Identity" asp-page="/Account/Login">logged in</a>
+        to create
+        <a asp-controller="Characters" asp-action="Index">characters</a>.
+    </p>
 </div>

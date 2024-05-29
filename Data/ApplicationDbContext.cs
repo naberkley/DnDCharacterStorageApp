@@ -10,6 +10,18 @@ namespace DnDCharacterStorageApp.Data
             : base(options)
         {
         }
-        public DbSet<DnDCharacterStorageApp.Models.Character> Character { get; set; } = default!;
+
+        public DbSet<Character> Character { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Character>()
+                .HasOne(c => c.CreatedBy)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedById);
+        }
     }
+
 }
