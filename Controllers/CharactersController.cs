@@ -41,6 +41,16 @@ namespace DnDCharacterStorageApp.Controllers
         // GET: Characters/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
+            SearchPhrase = SearchPhrase?.Trim(); // Remove whitespace from the start and end of the search phrase
+
+            if (string.IsNullOrEmpty(SearchPhrase))
+            {
+                // If the search phrase is null or empty after trimming, redirect to the index page
+                return RedirectToAction("Index");
+            }
+
+            // Perform the search...
+            ViewBag.SearchPhrase = SearchPhrase; // Store the search phrase in ViewBag
             return View("Index", await _context.Character.Where( j => j.Name.Contains(SearchPhrase)).ToListAsync());
         }
 
