@@ -72,17 +72,17 @@ button {
         color: #bababa;
     }
 
+.btn {
+    margin-top: 3px;
+    margin-right: 0px;
+    margin-bottom: 3px;
+    margin-left: 0px;
+}
+
 .btn-primary {
     background-color: #44a6ab; /* This sets the background color */
     color: #FFF; /* This sets the text color */
-    border: none; /* This removes the border */
-    padding: 10px 20px; /* This sets the padding around the text */
-    text-align: center; /* This centers the text */
-    text-decoration: none; /* This removes the underline */
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s; /* This makes the color change smoothly */
-    cursor: pointer; /* This changes the cursor to a hand when you hover over the button */
+    border-color: #44a6ab; /* border color same as background for padding purposes */
 }
 
         .btn-primary:hover {
