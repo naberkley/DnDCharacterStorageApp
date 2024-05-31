@@ -18,7 +18,7 @@ namespace DnDCharacterStorageApp.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Resources()
         {
             return View();
         }

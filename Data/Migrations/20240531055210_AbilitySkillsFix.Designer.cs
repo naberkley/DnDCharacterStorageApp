@@ -4,6 +4,7 @@ using DnDCharacterStorageApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacterStorageApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240531055210_AbilitySkillsFix")]
+    partial class AbilitySkillsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,15 +46,6 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
                     b.Property<bool>("HasSaveProficiency")
                         .HasColumnType("bit");
-
-                    b.Property<int>("Modifier")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaveBonus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -95,9 +89,6 @@ namespace DnDCharacterStorageApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProficiencyBonus")
-                        .HasColumnType("int");
-
                     b.Property<string>("Race")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,18 +114,11 @@ namespace DnDCharacterStorageApp.Data.Migrations
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("HasExpertise")
                         .HasColumnType("bit");
 
                     b.Property<bool>("HasProficiency")
                         .HasColumnType("bit");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
 
                     b.Property<string>("SkillName")
                         .IsRequired()
@@ -351,11 +335,13 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
             modelBuilder.Entity("DnDCharacterStorageApp.Models.Ability", b =>
                 {
-                    b.HasOne("DnDCharacterStorageApp.Models.Character", null)
+                    b.HasOne("DnDCharacterStorageApp.Models.Character", "Character")
                         .WithMany("Abilities")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("DnDCharacterStorageApp.Models.Character", b =>
@@ -369,11 +355,13 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
             modelBuilder.Entity("DnDCharacterStorageApp.Models.Skill", b =>
                 {
-                    b.HasOne("DnDCharacterStorageApp.Models.Character", null)
+                    b.HasOne("DnDCharacterStorageApp.Models.Character", "Character")
                         .WithMany("Skills")
                         .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

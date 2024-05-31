@@ -36,6 +36,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text">
+                            Race: @Html.DisplayFor(modelItem => item.Race)<br />
                             Class: @Html.DisplayFor(modelItem => item.Class)<br/>
                             Level: @Html.DisplayFor(modelItem => item.Level)<br/>
                             <span class="cardusername">@Html.Raw(item.CreatedBy?.UserName)</span>

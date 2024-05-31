@@ -48,6 +48,10 @@ p {
     text-transform: initial;
 }
 
+.form-group {
+    min-height: 80px; /* Keep enough room for validation message popups to not shift our layout */
+}
+
 button {
     background: transparent;
     border: 0;

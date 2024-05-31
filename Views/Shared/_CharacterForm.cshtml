@@ -1,0 +1,309 @@
+﻿@model DnDCharacterStorageApp.Models.Character
+
+@{bool isReadOnly = (ViewBag.Action == "Details" || ViewBag.Action == "Delete");}
+
+@if (Model == null)
+{
+    <p>Model is null</p>
+}
+
+@{
+    <h4>Character</h4>
+    <hr />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Name</p>
+        }
+        else
+        {
+            <input asp-for="Name" class="form-control" />
+        }
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Race" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Race</p>
+        }
+        else
+        {
+            <input asp-for="Race" class="form-control" />
+        }
+        <span asp-validation-for="Race" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Class" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Class</p>
+        }
+        else
+        {
+            <input asp-for="Class" class="form-control" />
+        }
+        <span asp-validation-for="Class" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Level" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Level</p>
+        }
+        else
+        {
+            <input asp-for="Level" class="form-control" />
+        }
+        <span asp-validation-for="Level" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Background" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Background</p>
+        }
+        else
+        {
+            <input asp-for="Background" class="form-control" />
+        }
+        <span asp-validation-for="Background" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HitPoints" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.HitPoints</p>
+        }
+        else
+        {
+            <input asp-for="HitPoints" class="form-control" />
+        }
+        <span asp-validation-for="HitPoints" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Speed" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.Speed</p>
+        }
+        else
+        {
+            <input asp-for="Speed" class="form-control" />
+        }
+        <span asp-validation-for="Speed" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ArmorClass" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.ArmorClass</p>
+        }
+        else
+        {
+            <input asp-for="ArmorClass" class="form-control" />
+        }
+        <span asp-validation-for="ArmorClass" class="text-danger"></span>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label asp-for="ProficiencyBonus" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@Model.ProficiencyBonus</p>
+        }
+        else
+        {
+            <input asp-for="ProficiencyBonus" type="hidden" />
+            <span class="proficiency-bonus">@((Model.ProficiencyBonus >= 0 ? "+" : "") + Model.ProficiencyBonus)</span>
+        }
+        <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Abilities</th>
+                <th>Score</th>
+                <th>Modifier</th>
+                <th>Save Proficiency</th>
+                <th>Save Bonus</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Abilities.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.Abilities[i].Id)
+                        @Html.HiddenFor(m => m.Abilities[i].AbilityName)
+                        @Html.HiddenFor(m => m.Abilities[i].Modifier)
+                        @Html.HiddenFor(m => m.Abilities[i].SaveBonus)
+                        @Model.Abilities[i].AbilityName
+                    </td>
+                    <td>
+                        @if (isReadOnly)
+                        {
+                            <p>@Model.Abilities[i].Score</p>
+                        }
+                        else
+                        {
+                            @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control", @style = "width: 70px;" } })
+                        }
+                    </td>
+                    <td class="modifier">
+                        @((Model.Abilities[i].Modifier >= 0 ? "+" : "") + Model.Abilities[i].Modifier)
+                    </td>
+                    <td>
+                        @if (isReadOnly)
+                        {
+                            <input type="checkbox" checked="@Model.Abilities[i].HasSaveProficiency" disabled />
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(m => m.Abilities[i].HasSaveProficiency)
+                        }
+                    </td>
+                    <td class="save-bonus">
+                        @((Model.Abilities[i].SaveBonus >= 0 ? "+" : "") + Model.Abilities[i].SaveBonus)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Skills</th>
+                <th>Score</th>
+                <th>Proficiency</th>
+                <th>Expertise</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.Skills.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.Skills[i].Id)
+                        @Html.HiddenFor(m => m.Skills[i].SkillName)
+                        @Html.HiddenFor(m => m.Skills[i].Score, new { @class = "skill-score-input", data_original_score = Model.Skills[i].Score })
+                        @Model.Skills[i].SkillName
+                        @if (DnDCharacterStorageApp.Models.Skills.SkillAbility.TryGetValue(Model.Skills[i].SkillName, out var associatedAbility))
+                        {
+                            <span class="text-muted">(@associatedAbility)</span>
+                        }
+                    </td>
+                    <td class="skill-score">
+                        @((Model.Skills[i].Score >= 0 ? "+" : "") + Model.Skills[i].Score)
+                    </td>
+                    <td>
+                        @if (isReadOnly || (Model.Skills[i].HasProficiency && Model.Skills[i].HasExpertise))
+                        {
+                            <input type="checkbox" checked="@Model.Skills[i].HasProficiency" disabled />
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(m => m.Skills[i].HasProficiency)
+                        }
+                    </td>
+                    <td>
+                        @if (isReadOnly)
+                        {
+                            <input type="checkbox" checked="@Model.Skills[i].HasExpertise" disabled />
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(m => m.Skills[i].HasExpertise)
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Function to calculate modifier
+    function calculateModifier(score) {
+        return Math.floor((score - 10) / 2);
+    }
+
+    // Function to calculate proficiency bonus
+    function calculateProficiencyBonus(level) {
+        return Math.ceil(level / 4) + 1;
+    }
+
+    // Function to calculate save bonus
+    function calculateSaveBonus(modifier, hasSaveProficiency, proficiencyBonus) {
+        return modifier + (hasSaveProficiency ? proficiencyBonus : 0);
+    }
+
+    // Function to format text
+    function formatText(value) {
+        return value >= 0 ? "+" + value : value;
+    }
+
+    // Function to update modifiers, proficiency bonuses, and save bonuses
+    function updateScores() {
+        $('input[name^="Abilities["][name$=".Score"]').each(function () {
+            var score = $(this).val();
+            var level = $('input[name="Level"]').val();
+            var hasSaveProficiency = $(this).closest('tr').find('input[name$=".HasSaveProficiency"]').is(':checked');
+            var modifier = calculateModifier(score);
+            var proficiencyBonus = calculateProficiencyBonus(level);
+            var saveBonus = calculateSaveBonus(modifier, hasSaveProficiency, proficiencyBonus);
+            var modifierText = formatText(modifier);
+            var proficiencyBonusText = formatText(proficiencyBonus);
+            var saveBonusText = formatText(saveBonus);
+
+            $(this).closest('tr').find('.modifier').text(modifierText);
+            $(this).closest('tr').find('input[name$=".Modifier"]').val(modifier);
+            $('.proficiency-bonus').text(proficiencyBonusText);
+            $('input[name="ProficiencyBonus"]').val(proficiencyBonus);
+            $(this).closest('tr').find('.save-bonus').text(saveBonusText);
+            $(this).closest('tr').find('input[name$=".SaveBonus"]').val(saveBonus);
+
+            // Update skill scores
+            var abilityName = $(this).closest('tr').find('input[name$=".AbilityName"]').val();
+            $('td:contains("' + abilityName + '")').each(function () {
+                var proficiencyCheckbox = $(this).closest('tr').find('input[name$=".HasProficiency"]');
+                var hasProficiency = proficiencyCheckbox.is(':checked');
+                var expertiseCheckbox = $(this).closest('tr').find('input[name$=".HasExpertise"]');
+                var hasExpertise = expertiseCheckbox.is(':checked');
+                var newSkillScore = parseInt(modifier);
+                if (hasProficiency) {
+                    newSkillScore += proficiencyBonus;
+                }
+                if (hasExpertise) {
+                    newSkillScore += proficiencyBonus;
+                    proficiencyCheckbox.prop('checked', true);
+                    proficiencyCheckbox.prop('disabled', true);
+                } else {
+                    proficiencyCheckbox.prop('disabled', false);
+                }
+                $(this).closest('tr').find('.skill-score').text(formatText(newSkillScore));
+                $(this).closest('tr').find('input.skill-score-input').val(formatText(newSkillScore));
+            });
+        });
+    }
+
+    // Event handlers for changes that should trigger an update
+    $('input[name^="Abilities["][name$=".Score"], input[name="Level"], input[name$=".HasSaveProficiency"], input[name$=".HasProficiency"], input[name$=".HasExpertise"]').on('input change', updateScores);
+});
+</script>

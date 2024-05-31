@@ -33,7 +33,7 @@ namespace DnDCharacterStorageApp.Controllers
         }
 
         // GET: Characters/ShowSearchForm
-        public async Task<IActionResult> ShowSearchForm()
+        public IActionResult ShowSearchForm()
         {
             return View();
         }
@@ -62,7 +62,11 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Character
+                .Include(c => c.CreatedBy)
+                .Include(c => c.Abilities)
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
@@ -76,7 +80,22 @@ namespace DnDCharacterStorageApp.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            return View();
+            var character = new Character
+            {
+                Name = string.Empty,
+                Race = string.Empty,
+                Class = string.Empty,
+                Background = string.Empty,
+                Level = 1,
+                HitPoints = 1,
+                Speed = 30,
+                ArmorClass = 10,
+                ProficiencyBonus = 2,
+                Abilities = Abilities.All.Select(a => new Ability { AbilityName = a }).ToList(),
+                Skills = Skills.All.Select(s => new Skill { SkillName = s }).ToList()
+            };
+
+            return View(character);
         }
 
         // POST: Characters/Create
@@ -97,7 +116,21 @@ namespace DnDCharacterStorageApp.Controllers
                 }
                 character.CreatedById = user.Id;
 
+                // Save the character to the database first to generate its ID
                 _context.Add(character);
+                await _context.SaveChangesAsync();
+
+                // Now set up the relationships and save again
+                foreach (var skill in character.Skills)
+                {
+                    skill.CharacterId = character.Id;
+                    _context.Update(skill);
+                }
+                foreach (var ability in character.Abilities)
+                {
+                    ability.CharacterId = character.Id;
+                    _context.Update(ability);
+                }
                 await _context.SaveChangesAsync();
 
                 // Log a success message
@@ -130,13 +163,24 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Character
+                .Include(c => c.CreatedBy)
+                .Include(c => c.Abilities)
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
             }
 
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                // Handle not logged in case
+                return Unauthorized();
+            }
+
+            var userId = user.Id;
             if (character.CreatedById != userId)
             {
                 return Unauthorized();
@@ -163,6 +207,17 @@ namespace DnDCharacterStorageApp.Controllers
                 try
                 {
                     _context.Update(character);
+
+                    // Manually mark each Ability and Skill as modified
+                    foreach (var ability in character.Abilities)
+                    {
+                        _context.Entry(ability).State = EntityState.Modified;
+                    }
+                    foreach (var skill in character.Skills)
+                    {
+                        _context.Entry(skill).State = EntityState.Modified;
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -190,13 +245,24 @@ namespace DnDCharacterStorageApp.Controllers
                 return NotFound();
             }
 
-            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
+            var character = await _context.Character
+                .Include(c => c.CreatedBy)
+                .Include(c => c.Abilities)
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
                 return NotFound();
             }
 
-            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                // Handle not logged in case
+                return Unauthorized();
+            }
+
+            var userId = user.Id;
             if (character.CreatedById != userId)
             {
                 return Unauthorized();
@@ -211,12 +277,30 @@ namespace DnDCharacterStorageApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var character = await _context.Character.Include(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
-            if (character != null)
+            var character = await _context.Character
+                .Include(c => c.CreatedBy)
+                .Include(c => c.Abilities)
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (character == null)
             {
-                _context.Character.Remove(character);
+                return NotFound();
             }
 
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                // Handle not logged in case
+                return Unauthorized();
+            }
+
+            var userId = user.Id;
+            if (character.CreatedById != userId)
+            {
+                return Unauthorized();
+            }
+
+            _context.Character.Remove(character);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
