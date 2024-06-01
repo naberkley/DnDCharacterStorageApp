@@ -91,6 +91,7 @@ namespace DnDCharacterStorageApp.Controllers
                 Speed = 30,
                 ArmorClass = 10,
                 ProficiencyBonus = 2,
+                InitiativeBonus = "+0",
                 Abilities = Abilities.All.Select(a => new Ability { AbilityName = a }).ToList(),
                 Skills = Skills.All.Select(s => new Skill { SkillName = s }).ToList()
             };

@@ -30,6 +30,8 @@ namespace DnDCharacterStorageApp.Models
         public int ArmorClass { get; set; }
         [DisplayName("Proficiency Bonus")]
         public int ProficiencyBonus { get; set; }
+        [DisplayName("Initiative Bonus")]
+        public string InitiativeBonus { get; set; }
 
         public IList<Ability> Abilities { get; set; }
         public IList<Skill> Skills { get; set; }

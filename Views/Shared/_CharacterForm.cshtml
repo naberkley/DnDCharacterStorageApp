@@ -128,19 +128,29 @@
 </div> <!-- end of row -->
 <br />
 
-<div class="form-group col-lg-3 col-sm-12">
-    <label asp-for="ProficiencyBonus" class="control-label"></label>
-    @if (isReadOnly)
-    {
-        <p>@Model.ProficiencyBonus</p>
-    }
-    else
-    {
+<div class="row">
+    <div class="form-group col-lg-3 col-sm-12">
+        <label asp-for="ProficiencyBonus" class="control-label"></label>
         <input asp-for="ProficiencyBonus" type="hidden" />
-        <span class="proficiency-bonus">@((Model.ProficiencyBonus >= 0 ? "+" : "") + Model.ProficiencyBonus)</span>
-    }
-    <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
+        <p class="text-muted proficiency-bonus">@((Model.ProficiencyBonus >= 0 ? "+" : "") + Model.ProficiencyBonus)</p>
+        <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-lg-3 col-sm-12">
+        <label asp-for="InitiativeBonus" class="control-label"></label>
+        @if (isReadOnly)
+        {
+            <p>@((!Model.InitiativeBonus.StartsWith("+") && !Model.InitiativeBonus.StartsWith("-") ? "+" : "") + Model.InitiativeBonus)</p>
+        }
+        else
+        {
+            <input asp-for="InitiativeBonus" class="form-control" />
+        }
+        <span asp-validation-for="InitiativeBonus" class="text-danger"></span>
+    </div>
+
 </div>
+
 <br />
 
 <div class="row">
