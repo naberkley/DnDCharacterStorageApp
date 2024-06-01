@@ -83,7 +83,7 @@ button {
         transform: scale(1.03);
         transition: transform .2s;
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        border: 2px outset #007bff;
+        border: 1px outset #007bff;
         border-radius: .25rem;
     }
 
