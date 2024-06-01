@@ -6,9 +6,9 @@
 
 <h1>Characters</h1>
 
-<!-- Search form -->
-<div class="row">
-    <div class="col-md-4">
+<!-- Search form and switch -->
+<div class="row mb-3">
+    <div class="col-md-6">
         <form asp-action="ShowSearchResults">
             <div class="form-group">
                 <label for="SearchPhrase" class="control-label"></label>
@@ -22,14 +22,22 @@
                 }
             </div>
         </form>
+        <!-- Switch -->
+        <div class="switch" style="width: 40px; height: 20px; display: inline-block; vertical-align: middle;">
+            <input type="checkbox" class="switch-checkbox" id="onlyMyCharacters">
+            <label class="switch-label" for="onlyMyCharacters">
+                <span class="switch-inner"></span>
+                <span class="switch-switch"></span>
+            </label>
+        </div>
+        <span style="vertical-align: middle;">Only my characters</span>
     </div>
 </div>
-<!-- End of search form -->
-
-<br />
+<!-- End of search form and switch -->
 
 <div class="row">
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <div class="col-sm-4">
             <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none text-dark">
                 <div class="card">
@@ -37,8 +45,8 @@
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text">
                             Race: @Html.DisplayFor(modelItem => item.Race)<br />
-                            Class: @Html.DisplayFor(modelItem => item.Class)<br/>
-                            Level: @Html.DisplayFor(modelItem => item.Level)<br/>
+                            Class: @Html.DisplayFor(modelItem => item.Class)<br />
+                            Level: @Html.DisplayFor(modelItem => item.Level)<br />
                             <span class="cardusername">@Html.Raw(item.CreatedBy?.UserName)</span>
                         </p>
                     </div>
@@ -51,3 +59,29 @@
 <div class="fixed-bottom text-center mb-3">
     <a asp-action="Create" class="btn btn-primary">New Character</a>
 </div>
+
+<script>
+    var allCardContainers = Array.from(document.getElementsByClassName('col-sm-4')); // Save all card containers
+    var cardContainer = document.getElementsByClassName('row')[1]; // Assuming the second 'row' class contains the cards
+
+    document.getElementById('onlyMyCharacters').addEventListener('change', function () {
+        var onlyMyCharacters = this.checked;
+        var currentUserName = '@User.Identity.Name'; // Replace this with the actual current user name
+
+        // Clear all cards
+        while (cardContainer.firstChild) {
+            cardContainer.removeChild(cardContainer.firstChild);
+        }
+
+        // Add back only the necessary cards
+        for (var i = 0; i < allCardContainers.length; i++) {
+            var cardContainerClone = allCardContainers[i].cloneNode(true); // Clone the card container
+            var card = cardContainerClone.getElementsByClassName('card')[0];
+            var cardUserName = card.getElementsByClassName('cardusername')[0].innerText;
+
+            if (!onlyMyCharacters || cardUserName === currentUserName) {
+                cardContainer.appendChild(cardContainerClone);
+            }
+        }
+    });
+</script>
