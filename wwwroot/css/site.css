@@ -56,6 +56,12 @@ p {
     min-height: 80px; /* Keep enough room for validation message popups to not shift our layout */
 }
 
+.charsheet-class {
+    max-width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 button {
     background: transparent;
     border: 0;

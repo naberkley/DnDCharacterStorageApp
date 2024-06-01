@@ -22,15 +22,18 @@
                 }
             </div>
         </form>
-        <!-- Switch -->
-        <div class="switch" style="width: 40px; height: 20px; display: inline-block; vertical-align: middle;">
-            <input type="checkbox" class="switch-checkbox" id="onlyMyCharacters">
-            <label class="switch-label" for="onlyMyCharacters">
-                <span class="switch-inner"></span>
-                <span class="switch-switch"></span>
-            </label>
-        </div>
-        <span style="vertical-align: middle;">Only my characters</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <!-- Switch -->
+            <div class="switch" style="width: 40px; height: 20px; display: inline-block; vertical-align: middle;">
+                <input type="checkbox" class="switch-checkbox" id="onlyMyCharacters">
+                <label class="switch-label" for="onlyMyCharacters">
+                    <span class="switch-inner"></span>
+                    <span class="switch-switch"></span>
+                </label>
+            </div>
+            <span style="vertical-align: middle;">Only my characters</span>
+        }
     </div>
 </div>
 <!-- End of search form and switch -->
