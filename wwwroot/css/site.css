@@ -1,5 +1,6 @@
 :root {
     --primary-color: #44a6ab;
+    --paper-color: #f9fbff;
 }
 
 html {
@@ -56,10 +57,12 @@ p {
     min-height: 80px; /* Keep enough room for validation message popups to not shift our layout */
 }
 
-.charsheet-class {
-    max-width: 80%;
-    margin-right: auto;
-    margin-left: auto;
+.paper-square {
+    background: var(--paper-color);
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.17), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+    padding: 18px;
+    width: 90%;
 }
 
 button {
@@ -69,8 +72,10 @@ button {
 }
 
 .card {
+    background: var(--paper-color);
     margin: 3px;
-    border: 2px solid rgba(0, 0, 0, .125);
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.17), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
     border-radius: .25rem;
 }
 

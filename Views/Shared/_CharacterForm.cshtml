@@ -4,270 +4,271 @@
     bool isReadOnly = (ViewBag.Action == "Details" || ViewBag.Action == "Delete");
 }
 
-<hr />
+<div class="paper-square">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <!-- Name, Race, Class, Level, Background -->
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Name" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Name</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Name" class="form-control" />
+                    }
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
 
-<div class="row">
-    <div class="col-lg-12">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <!-- Name, Race, Class, Level, Background -->
-            <div class="form-group col-lg-4 col-sm-12">
-                <label asp-for="Name" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Name</p>
-                }
-                else
-                {
-                    <input asp-for="Name" class="form-control" />
-                }
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Race" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Race</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Race" class="form-control" />
+                    }
+                    <span asp-validation-for="Race" class="text-danger"></span>
+                </div>
 
-            <div class="form-group col-lg-4 col-sm-12">
-                <label asp-for="Race" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Race</p>
-                }
-                else
-                {
-                    <input asp-for="Race" class="form-control" />
-                }
-                <span asp-validation-for="Race" class="text-danger"></span>
-            </div>
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Class" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Class</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Class" class="form-control" />
+                    }
+                    <span asp-validation-for="Class" class="text-danger"></span>
+                </div>
 
-            <div class="form-group col-lg-4 col-sm-12">
-                <label asp-for="Class" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Class</p>
-                }
-                else
-                {
-                    <input asp-for="Class" class="form-control" />
-                }
-                <span asp-validation-for="Class" class="text-danger"></span>
-            </div>
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Level" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Level</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Level" class="form-control" />
+                    }
+                    <span asp-validation-for="Level" class="text-danger"></span>
+                </div>
 
-            <div class="form-group col-lg-4 col-sm-12">
-                <label asp-for="Level" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Level</p>
-                }
-                else
-                {
-                    <input asp-for="Level" class="form-control" />
-                }
-                <span asp-validation-for="Level" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-4 col-sm-12">
-                <label asp-for="Background" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Background</p>
-                }
-                else
-                {
-                    <input asp-for="Background" class="form-control" />
-                }
-                <span asp-validation-for="Background" class="text-danger"></span>
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Background" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Background</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Background" class="form-control" />
+                    }
+                    <span asp-validation-for="Background" class="text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
+        <br />
+        <hr />
+
+        <div class="col-lg-12">
+            <div class="form-group row">
+                <!-- HitPoints, Speed, ArmorClass, ProficiencyBonus -->
+                <div class="form-group col-lg-3 col-sm-12">
+                    <label asp-for="HitPoints" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.HitPoints</p>
+                    }
+                    else
+                    {
+                        <input asp-for="HitPoints" class="form-control" />
+                    }
+                    <span asp-validation-for="HitPoints" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-3 col-sm-12">
+                    <label asp-for="Speed" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Speed</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Speed" class="form-control" />
+                    }
+                    <span asp-validation-for="Speed" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-3 col-sm-12">
+                    <label asp-for="ArmorClass" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.ArmorClass</p>
+                    }
+                    else
+                    {
+                        <input asp-for="ArmorClass" class="form-control" />
+                    }
+                    <span asp-validation-for="ArmorClass" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end of row -->
     <br />
-    <hr />
 
-    <div class="col-lg-12">
-        <div class="form-group row">
-            <!-- HitPoints, Speed, ArmorClass, ProficiencyBonus -->
-            <div class="form-group col-lg-3 col-sm-12">
-                <label asp-for="HitPoints" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.HitPoints</p>
-                }
-                else
-                {
-                    <input asp-for="HitPoints" class="form-control" />
-                }
-                <span asp-validation-for="HitPoints" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-3 col-sm-12">
-                <label asp-for="Speed" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.Speed</p>
-                }
-                else
-                {
-                    <input asp-for="Speed" class="form-control" />
-                }
-                <span asp-validation-for="Speed" class="text-danger"></span>
-            </div>
-
-            <div class="form-group col-lg-3 col-sm-12">
-                <label asp-for="ArmorClass" class="control-label"></label>
-                @if (isReadOnly)
-                {
-                    <p>@Model.ArmorClass</p>
-                }
-                else
-                {
-                    <input asp-for="ArmorClass" class="form-control" />
-                }
-                <span asp-validation-for="ArmorClass" class="text-danger"></span>
-            </div>
+    <div class="row">
+        <div class="form-group col-lg-3 col-sm-12">
+            <label asp-for="ProficiencyBonus" class="control-label"></label>
+            <input asp-for="ProficiencyBonus" type="hidden" />
+            <p class="text-muted proficiency-bonus">@((Model.ProficiencyBonus >= 0 ? "+" : "") + Model.ProficiencyBonus)</p>
+            <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
         </div>
-    </div>
-</div> <!-- end of row -->
-<br />
 
-<div class="row">
-    <div class="form-group col-lg-3 col-sm-12">
-        <label asp-for="ProficiencyBonus" class="control-label"></label>
-        <input asp-for="ProficiencyBonus" type="hidden" />
-        <p class="text-muted proficiency-bonus">@((Model.ProficiencyBonus >= 0 ? "+" : "") + Model.ProficiencyBonus)</p>
-        <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
-    </div>
+        <div class="form-group col-lg-3 col-sm-12">
+            <label asp-for="InitiativeBonus" class="control-label"></label>
+            @if (isReadOnly)
+            {
+                <p>@((!Model.InitiativeBonus.StartsWith("+") && !Model.InitiativeBonus.StartsWith("-") ? "+" : "") + Model.InitiativeBonus)</p>
+            }
+            else
+            {
+                <input asp-for="InitiativeBonus" class="form-control" />
+            }
+            <span asp-validation-for="InitiativeBonus" class="text-danger"></span>
+        </div>
 
-    <div class="form-group col-lg-3 col-sm-12">
-        <label asp-for="InitiativeBonus" class="control-label"></label>
-        @if (isReadOnly)
-        {
-            <p>@((!Model.InitiativeBonus.StartsWith("+") && !Model.InitiativeBonus.StartsWith("-") ? "+" : "") + Model.InitiativeBonus)</p>
-        }
-        else
-        {
-            <input asp-for="InitiativeBonus" class="form-control" />
-        }
-        <span asp-validation-for="InitiativeBonus" class="text-danger"></span>
     </div>
 
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Abilities -->
+            <table class="table">
+                <!-- Abilities table -->
+                <thead>
+                    <tr>
+                        <th>Abilities</th>
+                        <th>Score</th>
+                        <th>Modifier</th>
+                        <th>Save Proficiency</th>
+                        <th>Save Bonus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Abilities.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(m => m.Abilities[i].Id)
+                                @Html.HiddenFor(m => m.Abilities[i].AbilityName)
+                                @Html.HiddenFor(m => m.Abilities[i].Modifier)
+                                @Html.HiddenFor(m => m.Abilities[i].SaveBonus)
+                                @Model.Abilities[i].AbilityName
+                            </td>
+                            <td>
+                                @if (isReadOnly)
+                                {
+                                    <p>@Model.Abilities[i].Score</p>
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control", @style = "width: 70px;" } })
+                                }
+                            </td>
+                            <td class="modifier">
+                                @((Model.Abilities[i].Modifier >= 0 ? "+" : "") + Model.Abilities[i].Modifier)
+                            </td>
+                            <td>
+                                @if (isReadOnly)
+                                {
+                                    <input type="checkbox" checked="@Model.Abilities[i].HasSaveProficiency" disabled />
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(m => m.Abilities[i].HasSaveProficiency)
+                                }
+                            </td>
+                            <td class="save-bonus">
+                                @((Model.Abilities[i].SaveBonus >= 0 ? "+" : "") + Model.Abilities[i].SaveBonus)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- end of row -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Skills -->
+            <table class="table">
+                <!-- Skills table -->
+                <thead>
+                    <tr>
+                        <th>Skills</th>
+                        <th>Score</th>
+                        <th>Proficiency</th>
+                        <th>Expertise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Skills.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(m => m.Skills[i].Id)
+                                @Html.HiddenFor(m => m.Skills[i].SkillName)
+                                @Html.HiddenFor(m => m.Skills[i].Score, new { @class = "skill-score-input", data_original_score = Model.Skills[i].Score })
+                                @Model.Skills[i].SkillName
+                                @if (DnDCharacterStorageApp.Models.Skills.SkillAbility.TryGetValue(Model.Skills[i].SkillName, out var associatedAbility))
+                                {
+                                    <span class="text-muted">(@associatedAbility)</span>
+                                }
+                            </td>
+                            <td class="skill-score">
+                                @((Model.Skills[i].Score >= 0 ? "+" : "") + Model.Skills[i].Score)
+                            </td>
+                            <td>
+                                @if (isReadOnly)
+                                {
+                                    <input type="checkbox" checked="@Model.Skills[i].HasProficiency" disabled />
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(m => m.Skills[i].HasProficiency)
+                                }
+
+                            </td>
+                            <td>
+                                @if (isReadOnly)
+                                {
+                                    <input type="checkbox" checked="@Model.Skills[i].HasExpertise" disabled />
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(m => m.Skills[i].HasExpertise)
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- end of row -->
 </div>
 
-<br />
-
-<div class="row">
-    <div class="col-md-12">
-        <!-- Abilities -->
-        <table class="table">
-            <!-- Abilities table -->
-            <thead>
-                <tr>
-                    <th>Abilities</th>
-                    <th>Score</th>
-                    <th>Modifier</th>
-                    <th>Save Proficiency</th>
-                    <th>Save Bonus</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (var i = 0; i < Model.Abilities.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            @Html.HiddenFor(m => m.Abilities[i].Id)
-                            @Html.HiddenFor(m => m.Abilities[i].AbilityName)
-                            @Html.HiddenFor(m => m.Abilities[i].Modifier)
-                            @Html.HiddenFor(m => m.Abilities[i].SaveBonus)
-                            @Model.Abilities[i].AbilityName
-                        </td>
-                        <td>
-                            @if (isReadOnly)
-                            {
-                                <p>@Model.Abilities[i].Score</p>
-                            }
-                            else
-                            {
-                                @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control", @style = "width: 70px;" } })
-                            }
-                        </td>
-                        <td class="modifier">
-                            @((Model.Abilities[i].Modifier >= 0 ? "+" : "") + Model.Abilities[i].Modifier)
-                        </td>
-                        <td>
-                            @if (isReadOnly)
-                            {
-                                <input type="checkbox" checked="@Model.Abilities[i].HasSaveProficiency" disabled />
-                            }
-                            else
-                            {
-                                @Html.CheckBoxFor(m => m.Abilities[i].HasSaveProficiency)
-                            }
-                        </td>
-                        <td class="save-bonus">
-                            @((Model.Abilities[i].SaveBonus >= 0 ? "+" : "") + Model.Abilities[i].SaveBonus)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div> <!-- end of row -->
-
-<div class="row">
-    <div class="col-md-12">
-        <!-- Skills -->
-        <table class="table">
-            <!-- Skills table -->
-            <thead>
-                <tr>
-                    <th>Skills</th>
-                    <th>Score</th>
-                    <th>Proficiency</th>
-                    <th>Expertise</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (var i = 0; i < Model.Skills.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            @Html.HiddenFor(m => m.Skills[i].Id)
-                            @Html.HiddenFor(m => m.Skills[i].SkillName)
-                            @Html.HiddenFor(m => m.Skills[i].Score, new { @class = "skill-score-input", data_original_score = Model.Skills[i].Score })
-                            @Model.Skills[i].SkillName
-                            @if (DnDCharacterStorageApp.Models.Skills.SkillAbility.TryGetValue(Model.Skills[i].SkillName, out var associatedAbility))
-                            {
-                                <span class="text-muted">(@associatedAbility)</span>
-                            }
-                        </td>
-                        <td class="skill-score">
-                            @((Model.Skills[i].Score >= 0 ? "+" : "") + Model.Skills[i].Score)
-                        </td>
-                        <td>
-                            @if (isReadOnly)
-                            {
-                                <input type="checkbox" checked="@Model.Skills[i].HasProficiency" disabled />
-                            }
-                            else
-                            {
-                                @Html.CheckBoxFor(m => m.Skills[i].HasProficiency)
-                            }
-
-                        </td>
-                        <td>
-                            @if (isReadOnly)
-                            {
-                                <input type="checkbox" checked="@Model.Skills[i].HasExpertise" disabled />
-                            }
-                            else
-                            {
-                                @Html.CheckBoxFor(m => m.Skills[i].HasExpertise)
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div> <!-- end of row -->
 <br />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
