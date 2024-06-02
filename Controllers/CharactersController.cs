@@ -137,11 +137,11 @@ namespace DnDCharacterStorageApp.Controllers
                 // Log a success message
                 _logger.LogInformation("Character created successfully with ID: {CharacterId}", character.Id);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = character.Id });
             }
 
-            var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
-                .Select(x => new { x.Key, x.Value.Errors })
+            var errors = ModelState.Where(x => x.Value?.Errors.Count > 0)
+                .Select(x => new { x.Key, x.Value?.Errors })
                 .ToArray();
 
             foreach (var error in errors)
@@ -191,8 +191,6 @@ namespace DnDCharacterStorageApp.Controllers
         }
 
         // POST: Characters/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -232,7 +230,8 @@ namespace DnDCharacterStorageApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // Redirect to the Details action for the updated character
+                return RedirectToAction("Details", new { id = character.Id });
             }
             return View(character);
         }
