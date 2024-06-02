@@ -57,6 +57,16 @@ p {
     min-height: 80px; /* Keep enough room for validation message popups to not shift our layout */
 }
 
+.ability-score-input {
+    width: 70px;
+}
+
+@media (max-width: 767px) { /* smaller input boxes for mobile */
+    .ability-score-input {
+        width: 50px;
+    }
+}
+
 .paper-square {
     background: var(--paper-color);
     border: 1px solid #d3d3d3;

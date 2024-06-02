@@ -161,10 +161,12 @@
                     <thead>
                         <tr>
                             <th>Abilities</th>
-                            <th>Score</th>
-                            <th>Modifier</th>
-                            <th>Save Proficiency</th>
-                            <th>Save Bonus</th>
+                            <th></th>
+                            <th>
+                                <span class="d-none d-md-inline">Modifier</span>
+                                <span class="d-md-none">Mod</span>
+                            </th>
+                            <th colspan="2">Save <br /> Proficiency</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -176,7 +178,8 @@
                                     @Html.HiddenFor(m => m.Abilities[i].AbilityName)
                                     @Html.HiddenFor(m => m.Abilities[i].Modifier)
                                     @Html.HiddenFor(m => m.Abilities[i].SaveBonus)
-                                    @Model.Abilities[i].AbilityName
+                                    <span class="d-none d-md-inline">@Model.Abilities[i].AbilityName</span>
+                                    <span class="d-md-none">@DnDCharacterStorageApp.Models.Abilities.Abbreviations[Model.Abilities[i].AbilityName]</span>
                                 </td>
                                 <td>
                                     @if (isReadOnly)
@@ -185,7 +188,7 @@
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control", @style = "width: 70px;" } })
+                                        @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control ability-score-input" } })
                                     }
                                 </td>
                                 <td class="modifier">
@@ -221,9 +224,12 @@
                     <thead>
                         <tr>
                             <th>Skills</th>
-                            <th>Score</th>
+                            <th></th>
                             <th>Proficiency</th>
-                            <th>Expertise</th>
+                            <th>
+                                <span class="d-none d-md-inline">Expertise</span>
+                                <span class="d-md-none">Expert</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

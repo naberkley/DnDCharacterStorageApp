@@ -58,6 +58,16 @@
                 "Intelligence",
                 "Charisma"
             };
+
+        public static readonly Dictionary<string, string> Abbreviations = new Dictionary<string, string>
+            {
+                { "Strength", "Str" },
+                { "Dexterity", "Dex" },
+                { "Constitution", "Con" },
+                { "Wisdom", "Wis" },
+                { "Intelligence", "Int" },
+                { "Charisma", "Cha" }
+            };
     }
     
 }
