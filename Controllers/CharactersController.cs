@@ -64,8 +64,8 @@ namespace DnDCharacterStorageApp.Controllers
 
             var character = await _context.Character
                 .Include(c => c.CreatedBy)
-                .Include(c => c.Abilities)
-                .Include(c => c.Skills)
+                .Include(c => c.AbilitiesList)
+                .Include(c => c.SkillsList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
@@ -78,26 +78,24 @@ namespace DnDCharacterStorageApp.Controllers
 
         // GET: Characters/Create
         [Authorize]
+        [HttpGet]
         public IActionResult Create()
         {
-            var character = new Character
+            var character = new Character();
+
+            if (Skills.Definitions?.Any() == true)
             {
-                Name = string.Empty,
-                Race = string.Empty,
-                Class = string.Empty,
-                Background = string.Empty,
-                Level = 1,
-                HitPoints = 1,
-                Speed = 30,
-                ArmorClass = 10,
-                ProficiencyBonus = 2,
-                InitiativeBonus = "+0",
-                Abilities = Abilities.All.Select(a => new Ability { AbilityName = a }).ToList(),
-                Skills = Skills.All.Select(s => new Skill { SkillName = s }).ToList()
-            };
+                character.SkillsList = Skills.Definitions.Select(s => new Skill { SkillName = s.Key }).ToList();
+            }
+
+            if (Abilities.Definitions?.Any() == true)
+            {
+                character.AbilitiesList = Abilities.Definitions.Select(a => new Ability { AbilityName = a.Key }).ToList();
+            }
 
             return View(character);
         }
+
 
         // POST: Characters/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -117,17 +115,27 @@ namespace DnDCharacterStorageApp.Controllers
                 }
                 character.CreatedById = user.Id;
 
+                // Initialize SkillsList and AbilitiesList if they're not already populated
+                if (character.SkillsList == null)
+                {
+                    character.SkillsList = Skills.Definitions.Select(s => new Skill { SkillName = s.Key }).ToList();
+                }
+                if (character.AbilitiesList == null)
+                {
+                    character.AbilitiesList = Abilities.Definitions.Select(a => new Ability { AbilityName = a.Key }).ToList();
+                }
+
                 // Save the character to the database first to generate its ID
                 _context.Add(character);
                 await _context.SaveChangesAsync();
 
                 // Now set up the relationships and save again
-                foreach (var skill in character.Skills)
+                foreach (var skill in character.SkillsList)
                 {
                     skill.CharacterId = character.Id;
                     _context.Update(skill);
                 }
-                foreach (var ability in character.Abilities)
+                foreach (var ability in character.AbilitiesList)
                 {
                     ability.CharacterId = character.Id;
                     _context.Update(ability);
@@ -166,8 +174,8 @@ namespace DnDCharacterStorageApp.Controllers
 
             var character = await _context.Character
                 .Include(c => c.CreatedBy)
-                .Include(c => c.Abilities)
-                .Include(c => c.Skills)
+                .Include(c => c.AbilitiesList)
+                .Include(c => c.SkillsList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
@@ -208,11 +216,11 @@ namespace DnDCharacterStorageApp.Controllers
                     _context.Update(character);
 
                     // Manually mark each Ability and Skill as modified
-                    foreach (var ability in character.Abilities)
+                    foreach (var ability in character.AbilitiesList)
                     {
                         _context.Entry(ability).State = EntityState.Modified;
                     }
-                    foreach (var skill in character.Skills)
+                    foreach (var skill in character.SkillsList)
                     {
                         _context.Entry(skill).State = EntityState.Modified;
                     }
@@ -247,8 +255,8 @@ namespace DnDCharacterStorageApp.Controllers
 
             var character = await _context.Character
                 .Include(c => c.CreatedBy)
-                .Include(c => c.Abilities)
-                .Include(c => c.Skills)
+                .Include(c => c.AbilitiesList)
+                .Include(c => c.SkillsList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
@@ -279,8 +287,8 @@ namespace DnDCharacterStorageApp.Controllers
         {
             var character = await _context.Character
                 .Include(c => c.CreatedBy)
-                .Include(c => c.Abilities)
-                .Include(c => c.Skills)
+                .Include(c => c.AbilitiesList)
+                .Include(c => c.SkillsList)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {

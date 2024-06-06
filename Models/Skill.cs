@@ -27,8 +27,6 @@
         }
 
         public int Score { get; set; } = 0;
-        public string Description { get; set; } = string.Empty;
-
         public int CharacterId { get; set; }
     }
 }

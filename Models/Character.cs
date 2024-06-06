@@ -9,49 +9,33 @@ namespace DnDCharacterStorageApp.Models
     {
         public Character()
         {
-            Skills = new List<Skill>();
-            Abilities = new List<Ability>();
+
         }
 
         public int Id { get; set; }
-
 
         [Required]
         public string Name { get; set; } = string.Empty;
         public string Race { get; set; } = string.Empty;
         public string Class { get; set; } = string.Empty;
         public string Background { get; set; } = string.Empty;
-        public int Level { get; set; }
+        public string Alignment { get; set; } = string.Empty;
+        public string Experience { get; set; } = string.Empty;
+        public int Level { get; set; } = 1;
         [DisplayName("Hit Points")]
-        public int HitPoints { get; set; }
-        public int Speed { get; set; }
-        public int Initiative { get; set; }
+        public int HitPoints { get; set; } = 10;
+        public int Speed { get; set; } = 30;
         [DisplayName("Armor Class")]
-        public int ArmorClass { get; set; }
+        public int ArmorClass { get; set; } = 10;
         [DisplayName("Proficiency Bonus")]
-        public int ProficiencyBonus { get; set; }
+        public int ProficiencyBonus { get; set; } = 2;
         [DisplayName("Initiative Bonus")]
-        public string InitiativeBonus { get; set; }
+        public string InitiativeBonus { get; set; } = "+0";
 
-        public IList<Ability> Abilities { get; set; }
-        public IList<Skill> Skills { get; set; }
+        public IList<Ability> AbilitiesList { get; set; }
+        public IList<Skill> SkillsList { get; set; }
 
         public string? CreatedById { get; set; }
         public IdentityUser? CreatedBy { get; set; }
-
-        public bool HasSaveProficiency(string ability)
-        {
-            return Abilities.Any(ps => ps.AbilityName == ability && ps.HasSaveProficiency);
-        }
-
-        public bool IsProficient(string skill)
-        {
-            return Skills.Any(ps => ps.SkillName == skill && ps.HasProficiency);
-        }
-
-        public bool HasExpertise(string skill)
-        {
-            return Skills.Any(ps => ps.SkillName == skill && ps.HasExpertise);
-        }
     }
 }

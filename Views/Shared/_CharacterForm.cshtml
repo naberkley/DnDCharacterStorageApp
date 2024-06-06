@@ -2,6 +2,8 @@
 
 @{
     bool isReadOnly = (ViewBag.Action == "Details" || ViewBag.Action == "Delete");
+    var abilitiesDict = DnDCharacterStorageApp.Models.Abilities.Definitions;
+    var skillsDict = DnDCharacterStorageApp.Models.Skills.Definitions;
 }
 
 <div class="paper-square">
@@ -75,6 +77,32 @@
                         <input asp-for="Background" class="form-control" />
                     }
                     <span asp-validation-for="Background" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Alignment" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Alignment</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Alignment" class="form-control" />
+                    }
+                    <span asp-validation-for="Alignment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-lg-4 col-sm-12">
+                    <label asp-for="Experience" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        <p>@Model.Experience</p>
+                    }
+                    else
+                    {
+                        <input asp-for="Experience" class="form-control" />
+                    }
+                    <span asp-validation-for="Experience" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -166,46 +194,54 @@
                                 <span class="d-none d-md-inline">Modifier</span>
                                 <span class="d-md-none">Mod</span>
                             </th>
-                            <th colspan="2">Save <br /> Proficiency</th>
+                            <th>
+                                <span class="d-none d-sm-inline">Save <br /> Proficiency</span>
+                                <span class="d-sm-none">Save <br /> Prof</span>
+                            </th>
+                            <th>Save <br /> Bonus</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for (var i = 0; i < Model.Abilities.Count; i++)
+                        @for (var i = 0; i < Model.AbilitiesList.Count; i++)
                         {
+                            var ability = Model.AbilitiesList[i];
                             <tr>
                                 <td>
-                                    @Html.HiddenFor(m => m.Abilities[i].Id)
-                                    @Html.HiddenFor(m => m.Abilities[i].AbilityName)
-                                    @Html.HiddenFor(m => m.Abilities[i].Modifier)
-                                    @Html.HiddenFor(m => m.Abilities[i].SaveBonus)
-                                    <span class="d-none d-md-inline">@Model.Abilities[i].AbilityName</span>
-                                    <span class="d-md-none">@DnDCharacterStorageApp.Models.Abilities.Abbreviations[Model.Abilities[i].AbilityName]</span>
+                                    @Html.HiddenFor(m => m.AbilitiesList[i].Id)
+                                    @Html.HiddenFor(m => m.AbilitiesList[i].AbilityName)
+                                    @Html.HiddenFor(m => m.AbilitiesList[i].Modifier)
+                                    @Html.HiddenFor(m => m.AbilitiesList[i].SaveBonus)
+                                    <span class="tooltip-hover" title="@Abilities.Definitions[ability.AbilityName]["Description"]"
+                                          data-toggle="tooltip" data-original-title="@Abilities.Definitions[ability.AbilityName]["Description"]"
+                                          data-content="@Abilities.Definitions[ability.AbilityName]["Description"]" tabindex="0">
+                                        @ability.AbilityName
+                                    </span>
                                 </td>
                                 <td>
                                     @if (isReadOnly)
                                     {
-                                        <p>@Model.Abilities[i].Score</p>
+                                        <p>@ability.Score</p>
                                     }
                                     else
                                     {
-                                        @Html.EditorFor(m => m.Abilities[i].Score, new { htmlAttributes = new { @class = "form-control ability-score-input" } })
+                                        @Html.EditorFor(m => m.AbilitiesList[i].Score, new { htmlAttributes = new { @class = "form-control ability-score-input" } })
                                     }
                                 </td>
                                 <td class="modifier">
-                                    @((Model.Abilities[i].Modifier >= 0 ? "+" : "") + Model.Abilities[i].Modifier)
+                                    @((ability.Modifier >= 0 ? "+" : "") + ability.Modifier)
                                 </td>
                                 <td>
                                     @if (isReadOnly)
                                     {
-                                        <input type="checkbox" checked="@Model.Abilities[i].HasSaveProficiency" disabled />
+                                        <input type="checkbox" checked="@ability.HasSaveProficiency" disabled />
                                     }
                                     else
                                     {
-                                        @Html.CheckBoxFor(m => m.Abilities[i].HasSaveProficiency)
+                                        @Html.CheckBoxFor(m => m.AbilitiesList[i].HasSaveProficiency)
                                     }
                                 </td>
                                 <td class="save-bonus">
-                                    @((Model.Abilities[i].SaveBonus >= 0 ? "+" : "") + Model.Abilities[i].SaveBonus)
+                                    @((ability.SaveBonus >= 0 ? "+" : "") + ability.SaveBonus)
                                 </td>
                             </tr>
                         }
@@ -225,7 +261,10 @@
                         <tr>
                             <th>Skills</th>
                             <th></th>
-                            <th>Proficiency</th>
+                            <th>
+                                <span class="d-none d-md-inline">Proficiency</span>
+                                <span class="d-md-none">Proficient</span>
+                            </th>
                             <th>
                                 <span class="d-none d-md-inline">Expertise</span>
                                 <span class="d-md-none">Expert</span>
@@ -233,41 +272,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (var i = 0; i < Model.Skills.Count; i++)
+                        @for (var i = 0; i < Model.SkillsList.Count; i++)
                         {
+                            var skill = Model.SkillsList[i];
                             <tr>
                                 <td>
-                                    @Html.HiddenFor(m => m.Skills[i].Id)
-                                    @Html.HiddenFor(m => m.Skills[i].SkillName)
-                                    @Html.HiddenFor(m => m.Skills[i].Score, new { @class = "skill-score-input", data_original_score = Model.Skills[i].Score })
-                                    @Model.Skills[i].SkillName
-                                    @if (DnDCharacterStorageApp.Models.Skills.SkillAbility.TryGetValue(Model.Skills[i].SkillName, out var associatedAbility))
-                                    {
-                                        <span class="text-muted">(@associatedAbility)</span>
-                                    }
-                                </td>
-                                <td class="skill-score">
-                                    @((Model.Skills[i].Score >= 0 ? "+" : "") + Model.Skills[i].Score)
-                                </td>
-                                <td>
-                                    @if (isReadOnly)
-                                    {
-                                        <input type="checkbox" checked="@Model.Skills[i].HasProficiency" disabled />
-                                    }
-                                    else
-                                    {
-                                        @Html.CheckBoxFor(m => m.Skills[i].HasProficiency)
-                                    }
+                                    @Html.HiddenFor(m => m.SkillsList[i].Id)
+                                    @Html.HiddenFor(m => m.SkillsList[i].SkillName)
+                                    @Html.HiddenFor(m => m.SkillsList[i].Score, new { @class = "skill-score-input", data_original_score = skill.Score })
+                                    <span class="tooltip-hover" title="@skillsDict[skill.SkillName]["Description"]"
+                                            data-toggle="tooltip" data-original-title="@skillsDict[skill.SkillName]["Description"]"
+                                            data-content="@skillsDict[skill.SkillName]["Description"]" tabindex="0">
+                                        @skill.SkillName
+                                    </span>
 
+                                    <span class="text-muted">
+                                        (@skillsDict[skill.SkillName]["Ability"])
+                                    </span>
+                                </td>
+                                <td class="skill-score" style="width: 50px">
+                                    @((skill.Score >= 0 ? "+" : "") + skill.Score)
                                 </td>
                                 <td>
                                     @if (isReadOnly)
                                     {
-                                        <input type="checkbox" checked="@Model.Skills[i].HasExpertise" disabled />
+                                        <input type="checkbox" checked="@skill.HasProficiency" disabled />
                                     }
                                     else
                                     {
-                                        @Html.CheckBoxFor(m => m.Skills[i].HasExpertise)
+                                        @Html.CheckBoxFor(m => m.SkillsList[i].HasProficiency)
+                                    }
+                                </td>
+                                <td>
+                                    @if (isReadOnly)
+                                    {
+                                        <input type="checkbox" checked="@skill.HasExpertise" disabled />
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBoxFor(m => m.SkillsList[i].HasExpertise)
                                     }
                                 </td>
                             </tr>
@@ -281,5 +324,6 @@
 
 <br />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="~/js/characterForm.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/characterForm.js" asp-append-version="true"></script>

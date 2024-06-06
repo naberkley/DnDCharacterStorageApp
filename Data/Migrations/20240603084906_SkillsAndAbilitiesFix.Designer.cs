@@ -4,6 +4,7 @@ using DnDCharacterStorageApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacterStorageApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603084906_SkillsAndAbilitiesFix")]
+    partial class SkillsAndAbilitiesFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Abilities", (string)null);
+                    b.ToTable("Abilities");
                 });
 
             modelBuilder.Entity("DnDCharacterStorageApp.Models.Character", b =>
@@ -114,7 +117,7 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Character", (string)null);
+                    b.ToTable("Character");
                 });
 
             modelBuilder.Entity("DnDCharacterStorageApp.Models.Skill", b =>
@@ -145,7 +148,7 @@ namespace DnDCharacterStorageApp.Data.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Skills", (string)null);
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

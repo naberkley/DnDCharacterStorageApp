@@ -19,12 +19,12 @@ namespace DnDCharacterStorageApp.Data
             base.OnModelCreating(builder);
 
             builder.Entity<Character>()
-                .HasMany(c => c.Abilities)
+                .HasMany(c => c.AbilitiesList)
                 .WithOne()
                 .HasForeignKey(a => a.CharacterId);
 
             builder.Entity<Character>()
-                .HasMany(c => c.Skills)
+                .HasMany(c => c.SkillsList)
                 .WithOne()
                 .HasForeignKey(s => s.CharacterId);
         }

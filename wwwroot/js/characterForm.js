@@ -1,4 +1,18 @@
 ﻿$(document).ready(function () {
+    console.log("characterForm.js loaded");
+
+    ////////////////////////////////////////////
+    // Handle tooltips/popovers
+    // Initialize the tooltip with a delay
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover',
+        delay: { "show": 100, "hide": 100 }
+    });
+    ////////////////////////////////////////////
+
+    ////////////////////////////////////////////
+    // Handle character sheet dynamic stats
+
     // Function to calculate modifier
     function calculateModifier(score) {
         return Math.floor((score - 10) / 2);
@@ -21,7 +35,7 @@
 
     // Function to update modifiers, proficiency bonuses, and save bonuses
     function updateScores() {
-        $('input[name^="Abilities["][name$=".Score"]').each(function () {
+        $('input[name^="AbilitiesList["][name$=".Score"]').each(function () {
             var score = $(this).val();
             var level = $('input[name="Level"]').val();
             var hasSaveProficiency = $(this).closest('tr').find('input[name$=".HasSaveProficiency"]').is(':checked');
@@ -71,6 +85,7 @@
 
     // Function to set initial state of hasProficiency checkbox
     function setInitialState() {
+        console.log("setInitialState()");
         $('input[name$=".HasExpertise"]').each(function () {
             var expertiseCheckbox = $(this);
             var proficiencyCheckbox = expertiseCheckbox.closest('tr').find('input[name$=".HasProficiency"]');
@@ -86,5 +101,6 @@
     setInitialState();
 
     // Event handlers for changes that should trigger an update
-    $('input[name^="Abilities["][name$=".Score"], input[name="Level"], input[name$=".HasSaveProficiency"], input[name$=".HasProficiency"], input[name$=".HasExpertise"]').on('input change', updateScores);
+    console.log("Setting up event handlers");
+    $('input[name^="AbilitiesList["][name$=".Score"], input[name="Level"], input[name$=".HasSaveProficiency"], input[name$=".HasProficiency"], input[name$=".HasExpertise"]').on('input change', updateScores);
 });
